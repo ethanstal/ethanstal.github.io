@@ -1,0 +1,420 @@
+/* Portfolio d'Ethan Stalnikiewicz.
+   Toutes les valeurs (couleurs, tailles) vivent dans :root ; le reste du fichier n'utilise que var(--…). */
+
+:root {
+  /* 1. Primitives : couleurs en aplat, papier et encre */
+  --papier: #EEE6D8;
+  --encre: #111111;
+  --vermillon: #D52B1E;
+  --cobalt: #1F4FB8;
+  --jaune: #F2D21B;
+  --rose: #E7C3C3;
+  --violet: #7A4F8C;
+  --graphite: #3A3A3A;              /* sillons du vinyle, à peine plus clairs que l'encre */
+
+  /* Typographie */
+  --police-titre: "Archivo", system-ui, sans-serif;
+  --police-texte: var(--police-titre);
+  --police-accent: "Source Serif 4", Georgia, serif;  /* empattements peu contrastés : lisible même en petit */
+  --graisse-titre: 900;
+  --graisse-meta: 500;
+  --graisse-texte: 400;
+  --graisse-accent: 600;
+  --largeur-titre: 100%;            /* axe wdth d'Archivo */
+  --largeur-nom: 72%;               /* condensé : « STALNIKIEWICZ » tient à 375 px */
+  --taille-nom: clamp(2.5rem, 0.6rem + 10vw, 12rem);
+  --taille-h2: clamp(2.5rem, 0.5rem + 9vw, 9rem);
+  --taille-h3: clamp(1.375rem, 1.2rem + 0.8vw, 2rem);
+  --taille-numero: clamp(1.5rem, 1rem + 2vw, 3rem);
+  --taille-chiffre: clamp(2.5rem, 1.5rem + 3vw, 4.5rem);
+  --taille-texte: clamp(1rem, 0.95rem + 0.25vw, 1.125rem);
+  --taille-petit: clamp(0.8125rem, 0.78rem + 0.15vw, 0.875rem);
+  --interligne-titre: 0.9;
+  --interligne-cartel: 1.15;
+  --interligne-texte: 1.55;
+  --souligne-decalage: 0.2em;
+  --approche-titre: -0.02em;
+  --approche-meta: 0.08em;
+
+  /* Espacement */
+  --espace-1: 0.25rem;
+  --espace-2: 0.5rem;
+  --espace-3: 1rem;
+  --espace-4: 1.5rem;
+  --espace-5: 2.5rem;
+  --espace-6: 4rem;
+  --espace-7: 8rem;
+  --gouttiere: 1rem;
+  --largeur-max: 90rem;
+  --largeur-texte: 38rem;
+
+  /* Formes et cadres */
+  --trait: 0.125rem;
+  --cadre: 0.75rem;
+  --passe-partout: clamp(0.75rem, 3vw, 2rem);
+  --focus: 0.1875rem;
+  --galerie-min: 22rem;             /* 1 colonne à 375 px, 3 colonnes à 1440 px */
+  --forme-taille: clamp(12rem, 55vw, 42rem);
+  --forme-taille-parcours: clamp(12rem, 40vw, 30rem);
+  --competence-min: 16rem;          /* 2 colonnes de compétences à 1440 px */
+  --chiffre-min: 14rem;             /* chiffres clés en 2 × 2 à 1440 px */
+  --chiffre-min-experience: 19rem;  /* 4 par ligne à 1440 px, 2 à côté d'une affiche */
+  --taille-experience: clamp(2.5rem, 0.5rem + 8vw, 7rem);  /* « 360CROSSMEDIA » tient à côté de l'affiche */
+  --forme-taille-experience: clamp(6rem, 16vw, 12rem);
+  --forme-decalage-experience: calc(var(--forme-taille-experience) * -0.4);
+  --affiche-experience: 26rem;
+  --hauteur-ecran: 100svh;
+  --jauge-hauteur: 0.75rem;
+  --jauge-apres: 50%;               /* le temps de création qui reste chez Sercel */
+
+  /* 2. Sémantique : valeurs par défaut, redéfinies par chaque section (.s-*) */
+  --fond: var(--papier);
+  --texte: var(--encre);
+  --dominante: var(--encre);
+  --accent: var(--vermillon);
+  --section-padding: clamp(var(--espace-6), 10vw, var(--espace-7));
+  --marge-laterale: max(var(--gouttiere), calc((100% - var(--largeur-max)) / 2));
+  --galerie-espace: var(--espace-5);
+
+  /* 3. Composants */
+  --hanko-taille: clamp(3rem, 2rem + 4vw, 5.5rem);
+  --hanko-fond: var(--accent);
+  --hanko-texte: var(--papier);
+  --lecture-taille: 3rem;           /* cible tactile ≥ 44 px */
+  --logo-taille: 2.5rem;
+  --lyre-couleur: var(--encre);
+  --lecture-fond: var(--accent);
+  --lecture-signe: var(--papier);
+  --sillon: var(--graphite);
+  --etiquette: var(--jaune);
+  --cadre-couleur: var(--encre);
+  --passe-partout-couleur: var(--papier);
+}
+
+/* Une couleur dominante par section */
+.s-accueil   { --fond: var(--papier); --texte: var(--encre);  --dominante: var(--encre); }
+.s-parcours  { --fond: var(--papier); --texte: var(--encre);  --dominante: var(--cobalt); }
+.s-sercel     { --fond: var(--encre);  --texte: var(--papier); --dominante: var(--vermillon); --cadre-couleur: var(--papier); --passe-partout-couleur: var(--encre); }
+.s-crossmedia { --fond: var(--cobalt); --texte: var(--papier); --dominante: var(--jaune); }
+.s-audencia   { --fond: var(--papier); --texte: var(--encre);  --dominante: var(--cobalt); }
+.s-musique   { --fond: var(--papier); --texte: var(--encre);  --dominante: var(--encre); --lecture-fond: var(--encre); }
+.s-logiciels { --fond: var(--papier); --texte: var(--encre);  --dominante: var(--violet); }
+.s-images    { --fond: var(--rose);   --texte: var(--encre);  --dominante: var(--encre); }
+.s-outils    { --fond: var(--jaune);  --texte: var(--encre);  --dominante: var(--encre); }
+.s-contact   { --fond: var(--encre);  --texte: var(--papier); --dominante: var(--papier); }
+
+/* Base */
+*, *::before, *::after { box-sizing: border-box; }
+@media (prefers-reduced-motion: no-preference) {
+  html { scroll-behavior: smooth; }
+}
+body {
+  margin: 0;
+  background: var(--papier);
+  color: var(--encre);
+  font-family: var(--police-texte);
+  font-weight: var(--graisse-texte);
+  font-size: var(--taille-texte);
+  line-height: var(--interligne-texte);
+}
+img, svg { display: block; max-width: 100%; }
+p { margin: 0 0 var(--espace-3); }
+a { color: inherit; text-underline-offset: var(--souligne-decalage); text-decoration-thickness: var(--trait); }
+:focus-visible { outline: var(--focus) solid var(--texte); outline-offset: var(--focus); }
+
+.evitement {
+  position: absolute;
+  inset-inline-start: var(--gouttiere);
+  inset-block-start: var(--gouttiere);
+  z-index: 1;
+  padding: var(--espace-2) var(--espace-3);
+  background: var(--encre);
+  color: var(--papier);
+  transform: translateY(-300%);
+}
+.evitement:focus { transform: none; outline-color: var(--vermillon); }
+
+/* Navigation */
+.nav {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: var(--espace-2) var(--espace-4);
+  padding: var(--espace-3) var(--marge-laterale);
+  border-block-end: var(--trait) solid var(--encre);
+  font-size: var(--taille-petit);
+  font-weight: var(--graisse-meta);
+  letter-spacing: var(--approche-meta);
+  text-transform: uppercase;
+}
+.nav ul { display: flex; flex-wrap: wrap; gap: var(--espace-2) var(--espace-4); margin: 0; padding: 0; list-style: none; }
+.nav a { text-decoration: none; }
+.nav a:hover, .nav a:focus-visible { text-decoration: underline; }
+.nav__nom { font-weight: var(--graisse-titre); }
+
+/* Sections : chacune est une affiche */
+.section {
+  position: relative;
+  overflow: clip;
+  padding: var(--section-padding) var(--marge-laterale);
+  background: var(--fond);
+  color: var(--texte);
+}
+h1, h2, h3 { margin: 0; }
+h2 {
+  margin-block-end: var(--espace-5);
+  font-size: var(--taille-h2);
+  font-weight: var(--graisse-titre);
+  font-stretch: var(--largeur-titre);
+  line-height: var(--interligne-titre);
+  letter-spacing: var(--approche-titre);
+  text-transform: uppercase;
+}
+.numero {
+  display: block;
+  margin-block-end: var(--espace-2);
+  font-family: var(--police-accent);
+  font-size: var(--taille-numero);
+  font-weight: var(--graisse-texte);
+  letter-spacing: normal;
+  text-transform: none;
+}
+.forme { color: var(--dominante); }
+.entete {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--espace-5);
+}
+.entete__texte { flex: 1 1 var(--galerie-min); }
+.entete .forme { flex: 0 1 auto; width: var(--forme-taille); }
+
+/* Cartel de musée */
+.cartel { max-width: var(--largeur-texte); padding-block-start: var(--espace-3); border-block-start: var(--trait) solid currentColor; }
+.cartel__titre { margin-block-end: var(--espace-1); font-family: var(--police-accent); font-size: var(--taille-h3); font-weight: var(--graisse-accent); line-height: var(--interligne-cartel); }
+.cartel__meta { font-size: var(--taille-petit); font-weight: var(--graisse-meta); letter-spacing: var(--approche-meta); text-transform: uppercase; }
+.cartel :is(ul, ol) { margin: 0 0 var(--espace-3); padding-inline-start: var(--espace-4); }
+.cartel li + li { margin-block-start: var(--espace-2); }
+.cartel .liste-simple { padding: 0; list-style: none; }
+.cartel--large { max-width: none; }
+.competences {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, var(--competence-min)), 1fr));
+  gap: var(--espace-4) var(--espace-5);
+  margin-block-start: var(--espace-4);
+}
+.competences .cartel__meta { margin-block-end: var(--espace-2); padding-block-start: var(--espace-2); border-block-start: var(--trait) solid var(--dominante); }
+.competences p:last-child { margin: 0; }
+
+.bouton {
+  display: inline-block;
+  padding: var(--espace-3) var(--espace-4);
+  border: var(--trait) solid currentColor;
+  font-weight: var(--graisse-meta);
+  letter-spacing: var(--approche-meta);
+  text-decoration: none;
+  text-transform: uppercase;
+}
+.bouton:hover { background: var(--texte); color: var(--fond); }
+
+/* Accueil */
+.accueil__tete { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-start; gap: var(--espace-3); }
+.nom {
+  font-size: var(--taille-nom);
+  font-weight: var(--graisse-titre);
+  font-stretch: var(--largeur-nom);
+  line-height: var(--interligne-titre);
+  letter-spacing: var(--approche-titre);
+  text-transform: uppercase;
+  overflow-wrap: anywhere; /* sans Archivo (repli plus large) : couper le mot plutôt que le rogner */
+}
+.nom span { display: block; }
+.accueil__meta { font-size: var(--taille-petit); font-weight: var(--graisse-meta); letter-spacing: var(--approche-meta); text-transform: uppercase; }
+.role { margin-block: var(--espace-3) var(--espace-5); font-family: var(--police-accent); font-size: var(--taille-h3); font-weight: var(--graisse-accent); }
+.accueil__bloc { position: relative; margin-block-end: var(--espace-5); }
+.accueil__bas {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, var(--galerie-min)), 1fr));
+  gap: var(--espace-5) var(--espace-6);
+  align-items: start;
+}
+.chiffres {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, var(--chiffre-min)), 1fr));
+  gap: var(--espace-4) var(--espace-5);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.chiffres li { padding-block-start: var(--espace-3); border-block-start: var(--trait) solid currentColor; }
+.chiffres__nombre {
+  display: block;
+  margin-block-end: var(--espace-2);
+  font-size: var(--taille-chiffre);
+  font-weight: var(--graisse-titre);
+  font-stretch: var(--largeur-nom);
+  line-height: var(--interligne-titre);
+  letter-spacing: var(--approche-titre);
+}
+.cercles { width: 100%; height: auto; color: var(--dominante); }
+.hanko {
+  position: absolute;
+  top: calc(-1 * var(--espace-4));  /* physique : en vertical-rl, les propriétés logiques tournent */
+  right: var(--espace-4);
+  padding: var(--espace-2);
+  background: var(--hanko-fond);
+  color: var(--hanko-texte);
+  font-size: var(--hanko-taille);
+  font-weight: var(--graisse-titre);
+  line-height: var(--interligne-titre);
+  writing-mode: vertical-rl;
+  text-orientation: upright;
+}
+
+/* Contact et pied de page */
+.s-contact a { text-decoration-color: currentColor; }
+.pied { padding: var(--espace-4) var(--marge-laterale); background: var(--fond); color: var(--texte); border-block-start: var(--trait) solid var(--texte); font-size: var(--taille-petit); }
+.pied p { margin: 0; }
+
+/* Affiches encadrées, accrochées comme sur un mur d'exposition */
+.galerie {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, var(--galerie-min)), 1fr));
+  gap: var(--galerie-espace);
+  align-items: start;
+  margin-block-start: var(--espace-6);
+}
+.affiche { margin: 0; }
+.affiche img {
+  box-sizing: content-box;          /* le ratio porte sur l'image seule, pas sur cadre + passe-partout */
+  width: calc(100% - 2 * (var(--cadre) + var(--passe-partout)));
+  height: auto;
+  aspect-ratio: 3 / 4;
+  object-fit: cover;
+  padding: var(--passe-partout);
+  border: var(--cadre) solid var(--cadre-couleur);
+  background: var(--passe-partout-couleur);
+}
+.affiche--paysage img { aspect-ratio: 16 / 10; }
+.affiche--large { margin-block-start: var(--espace-6); }
+.affiche--large img { aspect-ratio: 16 / 9; }
+
+/* Images IA : deux accrochages, les visuels de marque puis les recherches libres */
+.groupe { margin-block-start: var(--espace-7); }
+.galerie--mosaique { display: block; columns: var(--galerie-min); column-gap: var(--galerie-espace); }
+.galerie--mosaique .affiche { break-inside: avoid; margin-block-end: var(--galerie-espace); }
+.galerie--mosaique .affiche img { aspect-ratio: auto; }   /* les œuvres libres gardent leur format, sans recadrage */
+
+/* Parcours : sommaire et damier, puis un écran par expérience */
+.s-parcours .entete .forme { width: var(--forme-taille-parcours); }
+.affiche .cartel { margin-block-start: var(--espace-4); }
+.sommaire { max-width: var(--largeur-texte); margin: 0; padding: 0; list-style: none; border-block-start: var(--trait) solid currentColor; }
+.sommaire a {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: var(--espace-2) var(--espace-4);
+  padding-block: var(--espace-3);
+  border-block-end: var(--trait) solid currentColor;
+  text-decoration: none;
+}
+.sommaire a:hover .sommaire__nom, .sommaire a:focus-visible .sommaire__nom { text-decoration: underline; }
+.sommaire__nom { font-size: var(--taille-h3); font-weight: var(--graisse-titre); line-height: var(--interligne-cartel); letter-spacing: var(--approche-titre); text-transform: uppercase; }
+
+.experience {
+  --chiffre-min: var(--chiffre-min-experience);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: var(--espace-6);
+  min-height: var(--hauteur-ecran);
+}
+.experience__nom {
+  font-size: var(--taille-experience);
+  font-weight: var(--graisse-titre);
+  font-stretch: var(--largeur-nom);
+  line-height: var(--interligne-titre);
+  letter-spacing: var(--approche-titre);
+  text-transform: uppercase;
+  overflow-wrap: anywhere;
+}
+.experience__poste { margin-block: var(--espace-4) var(--espace-2); font-family: var(--police-accent); font-size: var(--taille-h3); font-weight: var(--graisse-accent); }
+.experience__meta { margin-block-end: var(--espace-5); }
+/* Texte et affiche côte à côte : un écran par expérience */
+.experience__corps { display: flex; flex-wrap: wrap; align-items: center; gap: var(--espace-6); }
+.experience__texte { flex: 1 1 var(--galerie-min); }
+.experience__texte .chiffres + .cartel { margin-block-start: var(--espace-5); }
+.experience__corps .affiche { position: relative; isolation: isolate; flex: 0 1 var(--affiche-experience); }
+/* La forme dépasse derrière le coin haut-gauche de l'affiche, comme un soleil derrière un cadre */
+.experience .affiche .forme {
+  position: absolute;
+  z-index: -1;
+  inset-block-start: var(--forme-decalage-experience);
+  inset-inline-start: var(--forme-decalage-experience);
+  width: var(--forme-taille-experience);
+}
+.experience .chiffres__nombre { color: var(--dominante); }
+.experience .tampon { width: fit-content; padding: var(--espace-1) var(--espace-2); background: var(--dominante); color: var(--hanko-texte); }
+.jauge { display: grid; gap: var(--espace-1); margin-block-end: var(--espace-3); }
+.jauge span { height: var(--jauge-hauteur); border: var(--trait) solid var(--dominante); }
+.jauge span + span { width: var(--jauge-apres); background: var(--dominante); }
+
+/* Musique : un vinyle en aplats, sillons et étiquette */
+.vinyle__sillons { fill: none; stroke: var(--sillon); }
+.vinyle__etiquette { fill: var(--etiquette); }
+.vinyle__trou { fill: var(--fond); }
+
+/* Musique : extraits et bouton lecture fait maison */
+.morceaux { padding: 0; list-style: none; }
+.morceau { display: flex; align-items: flex-start; gap: var(--espace-3); }
+.morceau .cartel { flex: 1; }
+.lecture {
+  flex: none;
+  width: var(--lecture-taille);
+  height: var(--lecture-taille);
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+}
+.lecture svg { width: 100%; height: 100%; }
+.lecture__fond { fill: var(--lecture-fond); stroke: var(--lecture-fond); stroke-width: 2; }
+.icone-lecture, .icone-pause { fill: var(--lecture-signe); }
+.icone-pause, .lecture[aria-pressed="true"] .icone-lecture { display: none; }
+.lecture[aria-pressed="true"] .icone-pause { display: inline; }
+.lecture:disabled { cursor: not-allowed; }
+.lecture:disabled .lecture__fond { fill: none; }
+.lecture:disabled .icone-lecture { fill: var(--lecture-fond); }
+
+/* Logiciels : la lyre d'Orpheus dans l'espace papier, triangle violet */
+.lyre { fill: var(--lyre-couleur); }
+
+/* Outils : liste de cartel, logos en encre */
+.outils {
+  flex: 1 1 var(--galerie-min);
+  max-width: var(--largeur-texte);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border-block-start: var(--trait) solid currentColor;
+}
+.outils li {
+  display: grid;
+  grid-template-columns: var(--logo-taille) 1fr;
+  align-items: center;
+  gap: var(--espace-3);
+  padding-block: var(--espace-3);
+  border-block-end: var(--trait) solid currentColor;
+}
+.outils img { width: var(--logo-taille); height: var(--logo-taille); }
+.outils__nom {
+  grid-column: 2;
+  font-size: var(--taille-h3);
+  font-weight: var(--graisse-titre);
+  line-height: var(--interligne-cartel);
+  letter-spacing: var(--approche-titre);
+  text-transform: uppercase;
+}
