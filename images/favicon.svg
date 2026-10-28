@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" shape-rendering="crispEdges">
+  <!-- Le tampon « ES » de l'accueil : lettres en aplats papier sur vermillon -->
+  <rect width="32" height="32" fill="#D52B1E"/>
+  <g fill="#EEE6D8">
+    <rect x="4" y="6" width="4" height="20"/><rect x="4" y="6" width="11" height="4"/><rect x="4" y="14" width="9" height="4"/><rect x="4" y="22" width="11" height="4"/>
+    <rect x="17" y="6" width="11" height="4"/><rect x="17" y="6" width="4" height="12"/><rect x="17" y="14" width="11" height="4"/><rect x="24" y="14" width="4" height="12"/><rect x="17" y="22" width="11" height="4"/>
+  </g>
+</svg>

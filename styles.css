@@ -53,6 +53,8 @@
   --cadre: 0.75rem;
   --passe-partout: clamp(0.75rem, 3vw, 2rem);
   --focus: 0.1875rem;
+  --focus-reserve: calc(2 * var(--focus));  /* place du contour de focus dans le menu qui défile */
+  --nav-reserve: 6rem;              /* hauteur du menu collant, 2 lignes à 375 px */
   --galerie-min: 22rem;             /* 1 colonne à 375 px, 3 colonnes à 1440 px */
   --forme-taille: clamp(12rem, 55vw, 42rem);
   --forme-taille-parcours: clamp(12rem, 40vw, 30rem);
@@ -81,7 +83,6 @@
   --hanko-fond: var(--accent);
   --hanko-texte: var(--papier);
   --lecture-taille: 3rem;           /* cible tactile ≥ 44 px */
-  --logo-taille: 2.5rem;
   --lyre-couleur: var(--encre);
   --lecture-fond: var(--accent);
   --lecture-signe: var(--papier);
@@ -100,7 +101,6 @@
 .s-musique   { --fond: var(--papier); --texte: var(--encre);  --dominante: var(--encre); --lecture-fond: var(--encre); }
 .s-logiciels { --fond: var(--papier); --texte: var(--encre);  --dominante: var(--violet); }
 .s-images    { --fond: var(--rose);   --texte: var(--encre);  --dominante: var(--encre); }
-.s-outils    { --fond: var(--jaune);  --texte: var(--encre);  --dominante: var(--encre); }
 .s-contact   { --fond: var(--encre);  --texte: var(--papier); --dominante: var(--papier); }
 
 /* Base */
@@ -108,6 +108,7 @@
 @media (prefers-reduced-motion: no-preference) {
   html { scroll-behavior: smooth; }
 }
+html { scroll-padding-block-start: var(--nav-reserve); }
 body {
   margin: 0;
   background: var(--papier);
@@ -126,7 +127,7 @@ a { color: inherit; text-underline-offset: var(--souligne-decalage); text-decora
   position: absolute;
   inset-inline-start: var(--gouttiere);
   inset-block-start: var(--gouttiere);
-  z-index: 1;
+  z-index: 3;                       /* au-dessus du menu collant */
   padding: var(--espace-2) var(--espace-3);
   background: var(--encre);
   color: var(--papier);
@@ -134,23 +135,36 @@ a { color: inherit; text-underline-offset: var(--souligne-decalage); text-decora
 }
 .evitement:focus { transform: none; outline-color: var(--vermillon); }
 
-/* Navigation */
+/* Navigation : collante, sur une ligne qui défile quand l'écran est étroit */
 .nav {
+  position: sticky;
+  inset-block-start: 0;
+  z-index: 2;
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
-  align-items: baseline;
-  gap: var(--espace-2) var(--espace-4);
-  padding: var(--espace-3) var(--marge-laterale);
+  align-items: center;
+  gap: 0 var(--espace-4);
+  padding: var(--espace-2) var(--marge-laterale);
+  background: var(--papier);
   border-block-end: var(--trait) solid var(--encre);
   font-size: var(--taille-petit);
   font-weight: var(--graisse-meta);
   letter-spacing: var(--approche-meta);
   text-transform: uppercase;
 }
-.nav ul { display: flex; flex-wrap: wrap; gap: var(--espace-2) var(--espace-4); margin: 0; padding: 0; list-style: none; }
-.nav a { text-decoration: none; }
-.nav a:hover, .nav a:focus-visible { text-decoration: underline; }
+.nav nav { min-width: 0; }         /* laisse la liste rétrécir et défiler au lieu d'élargir la page */
+.nav ul {
+  display: flex;
+  gap: var(--espace-4);
+  margin: calc(-1 * var(--focus-reserve));
+  padding: var(--focus-reserve);
+  overflow-x: auto;
+  list-style: none;
+  white-space: nowrap;
+}
+.nav a { display: inline-block; padding-block: var(--espace-2); text-decoration: none; }  /* cible d'environ 36 px de haut */
+.nav a:hover, .nav a:focus-visible, .nav a[aria-current] { text-decoration: underline; }
 .nav__nom { font-weight: var(--graisse-titre); }
 
 /* Sections : chacune est une affiche */
@@ -232,8 +246,9 @@ h2 {
 }
 .nom span { display: block; }
 .accueil__meta { font-size: var(--taille-petit); font-weight: var(--graisse-meta); letter-spacing: var(--approche-meta); text-transform: uppercase; }
+.accueil__meta a { display: inline-block; padding-block: var(--espace-2); }
 .role { margin-block: var(--espace-3) var(--espace-5); font-family: var(--police-accent); font-size: var(--taille-h3); font-weight: var(--graisse-accent); }
-.accueil__bloc { position: relative; margin-block-end: var(--espace-5); }
+.accueil__bloc { position: relative; min-height: calc(2 * var(--interligne-titre) * var(--hanko-taille)); margin-block-end: var(--espace-5); }  /* le tampon ne déborde pas sous la bande de points */
 .accueil__bas {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(min(100%, var(--galerie-min)), 1fr));
@@ -391,30 +406,3 @@ h2 {
 
 /* Logiciels : la lyre d'Orpheus dans l'espace papier, triangle violet */
 .lyre { fill: var(--lyre-couleur); }
-
-/* Outils : liste de cartel, logos en encre */
-.outils {
-  flex: 1 1 var(--galerie-min);
-  max-width: var(--largeur-texte);
-  margin: 0;
-  padding: 0;
-  list-style: none;
-  border-block-start: var(--trait) solid currentColor;
-}
-.outils li {
-  display: grid;
-  grid-template-columns: var(--logo-taille) 1fr;
-  align-items: center;
-  gap: var(--espace-3);
-  padding-block: var(--espace-3);
-  border-block-end: var(--trait) solid currentColor;
-}
-.outils img { width: var(--logo-taille); height: var(--logo-taille); }
-.outils__nom {
-  grid-column: 2;
-  font-size: var(--taille-h3);
-  font-weight: var(--graisse-titre);
-  line-height: var(--interligne-cartel);
-  letter-spacing: var(--approche-titre);
-  text-transform: uppercase;
-}
